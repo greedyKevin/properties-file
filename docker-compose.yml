@@ -1,0 +1,55 @@
+version: "3"
+services:
+  oss:
+    build: .
+    restart: always
+    ports:
+      - 9090:9090
+    container_name: my_oss
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - D:\oss\logs\:/logs
+      - D:\oss\user\:/db
+      - D:\minio\data\:/data
+
+  redis:
+    container_name: my_redis
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - D:\oss\redis\data\:/data
+      - D:\oss\redis\config\redis.conf:/config/redis.conf
+    command: redis-server /config/redis.conf --requirepass hello123456
+
+  minio:
+    container_name: my_minio
+    image: minio/minio
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+        MINIO_ROOT_USER: admin
+        MINIO_ROOT_PASSWORD: 12345678
+    volumes:
+      - D:\minio\data\:/data
+    command: server /data --console-address ":9001"
+
+#  zookeeper:
+#    container_name: my_zookeeper
+#    image: zookeeper
+#    ports:
+#      - 2181:2181
+#    restart: always
+#
+#  kafka:
+#    container_name: my_kafka
+#    image: wurstmeister/kafka
+#    restart: always
+#    ports:
+#      - 9092:9092
+#    environment:
+

@@ -1,0 +1,50 @@
+version: "3"
+services:
+  gitlab:
+    container_name: gitlab
+    image: gitlab/gitlab-ce
+    restart: unless-stopped
+    ports:
+      - "9180:80"
+      - "9122:22"
+    volumes:
+      - E:\docker-config\gitlab\data\:/var/opt/gitlab
+      - E:\docker-config\gitlab\etc\:/etc/gitlab
+      - E:\docker-config\gitlab\log\:/var/log/gitlab
+    privileged: true
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins
+    restart: always
+    ports:
+      - "8088:8080"
+    volumes:
+      - E:\docker-config\jenkins\home\:/var/jenkins_home/
+      - E:\docker-config\jenkins\config\jdk1.8.0_202\:/usr/local/java/
+      - E:\docker-config\jenkins\config\apache-maven-3.8.4\:/usr/local/maven/
+
+  torna:
+    image: tanghc2020/torna:latest
+    container_name: torna
+    environment:
+      - TZ=Asia/Shanghai
+      - JAVA_OPTS=-server -Xmx1024m -Xms1024m -Djava.awt.headless=true
+      - MYSQL_HOST= 172.18.29.211:3306
+      - MYSQL_SCHEMA=torna
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=123456
+    ports:
+      - 7700:7700
+    restart: always
+
+  nexus:
+    image: sonatype/nexus3:latest
+    container_name: nexus
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 8081:8081
+    restart: unless-stopped
+    volumes:
+      -  E:\docker-config\nexus\data\:/nexus-data
