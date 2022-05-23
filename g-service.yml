@@ -44,7 +44,31 @@ services:
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - 8081:8081
+      - "8081:8081"
     restart: unless-stopped
     volumes:
       -  E:\docker-config\nexus\data\:/nexus-data
+
+  registry:
+    image: registry:latest
+    container_name: registry
+    environment:
+      - TZ=Asia/Shanghai
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - E:\docker-config\registry\registry\:/var/lib/registry/
+      - E:\docker-config\registry\config.yml:/etc/docker/registry/config.yml
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: always
+    ports:
+      - "11111:80"
+    environment:
+      - REGISTRY_TITLE=Kevin's Docker Registry
+      - REGISTRY_URL=http://172.18.27.213:5000
+      - DELETE_IMAGES=true
+    depends_on:
+      - registry
