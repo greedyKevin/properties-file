@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:D:/oss/user/user_dev.db
+    driver-class-name: org.sqlite.JDBC
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始连接数
+      initial-size: 5
+      # 最小连接数
+      min-idle: 5
+      # 最大连接数
+      max-active: 20
+      # 获取连接最大等待时间
+      max-wait: 800
+      # 连接池空闲连接的有效时间   5分钟
+      min-evictable-idle-time-millis: 300000
+
+      keep-alive: true
+
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filters: stat,wall
+
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+
+      web-stat-filter:
+        enabled: true
+      # loaclhost:端口/druid/login.html
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin
