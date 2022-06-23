@@ -52,6 +52,7 @@ spring:
             type: INLINE
             props:
               algorithm-expression: building_entity_$->{id % 2}
+              allow-range-query-with-inline-sharding: true
   main:
     allow-bean-definition-overriding: true
 mybatis-plus:
