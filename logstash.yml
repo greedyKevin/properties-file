@@ -1,0 +1,8 @@
+version: "3"
+services:
+  logstash:
+    image: logstash:7.17.6
+    container_name: logstash
+    restart: always
+    volumes:
+      - D:/机器/211/logstash/:/usr/share/logstash/pipeline/
