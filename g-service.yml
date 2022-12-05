@@ -2,7 +2,7 @@ version: "3"
 services:
   gitlab:
     container_name: gitlab
-    image: gitlab/gitlab-ce
+    image: gitlab/gitlab-ce:14.10.3-ce.0
     restart: unless-stopped
     ports:
       - "9180:80"
